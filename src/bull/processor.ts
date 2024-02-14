@@ -1,19 +1,22 @@
 import { Processor, Process, OnQueueActive, OnQueueCompleted } from '@nestjs/bull';
 import { Job } from 'bull';
 import { Injectable, Scope } from '@nestjs/common';
-
+import { MessageRepository } from 'src/entity/message/message.repository';
+import { MessageDto } from 'src/entity/message/message.dto';
+import { MessageEntity } from 'src/entity/message/message.entity';
 // @Processor({
 //   name:'audio', scope: Scope.REQUEST})
 @Processor('audio')
 export class BullProcessor {
+  private readonly messageRepository: MessageRepository;
   private count=0;
 
   @Process("transcode")
   async transcode(job: Job<any>): Promise<any> {
     console.log("transcode start...")
-    this.count++;
-    const resObj = JSON.parse(`{ "jobId": "${job.id}", "count": ${this.count} }`);
-    console.log(resObj)
+    const dto:MessageDto = new MessageDto(job.data.message, job.data.writer)
+    this.messageRepository.createMessage(dto);
+    const resObj = JSON.parse(`{ "jobId": "${job.id}", "message": "${job.data}" }`);
     return {queue:resObj, data: job.data};
   }
 

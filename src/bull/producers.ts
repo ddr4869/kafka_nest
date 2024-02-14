@@ -1,21 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
 import { InjectQueue } from '@nestjs/bull';
+import { CreateQueue } from './model/queue_request';
 
 @Injectable()
 export class BullProducer {
-  constructor(@InjectQueue('audio') private audioQueue: Queue) {}
+  constructor(
+    @InjectQueue('audio') 
+    private audioQueue: Queue,
+    ) {}
 
-    async setJob(): Promise<any> {
+    async setJob(data: CreateQueue): Promise<any> {
+      console.log("data: ",data.data)
+      console.log("name: ",data.name)
       try {
         const job = await this.audioQueue.add("transcode",{
-        foo: 'bar',
+        data: data,
         });
         if (job?.id === undefined) {
           throw new Error('Save event data job ID not available');
         }
         console.log('Job DATA:', job.data)
-        return {job_data: job}
+        return {job_id:job.id, job_data: job.data}
       } catch (error) {
         console.log(error)
       }

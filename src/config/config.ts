@@ -1,6 +1,32 @@
 require('dotenv').config();
 import * as env from 'env-var';
 
+export const DBHOST = env
+    .get('DB_HOST')
+    .default('127.0.0.1')
+    .asString();    
+
+export const DBPORT = env
+    .get('DB_PORT')
+    .default('5432')
+    .asPortNumber();
+
+export const DBNAME = env
+    .get('DB_NAME')
+    .default('test')
+    .asString();
+
+export const DBUSER = env
+    .get('DB_USER')
+    .default('postgres')
+    .asString();
+
+export const DBPWD = env
+    .get('DB_PASS')
+    .default('postgres')
+    .asString();
+
+
 // set redis port to start the REST server on
 export const REDISHOST = env
     .get('REDIS_HOST')
@@ -37,6 +63,5 @@ export const LOGPATH = env
     .default('./logs')
     .asString();
 
-    
 
 

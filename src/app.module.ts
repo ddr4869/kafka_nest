@@ -3,9 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
 import * as config from './config/config';
-import { BullProducer } from 'bull/producers';
-import { BullProcessor } from 'bull/processor';
+import { BullProducer } from 'src/bull/producers';
+import { BullProcessor } from 'src/bull/processor';
 import { join } from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EntityModule } from './entity/entity.module';
+import { MessageRepository } from './entity/message/message.repository';
 @Module({
   imports: [
     BullModule.forRoot({
@@ -17,10 +20,11 @@ import { join } from 'path';
     }),
     BullModule.registerQueue({
       name: 'audio',
-      processors: [join(__dirname, '..','bull', 'processor.js')],
+      processors: [join(__dirname, 'bull', 'processor.js')],
     }),
+    EntityModule,
   ],
   controllers: [AppController],
-  providers: [AppService, BullProducer, BullProcessor],
+  providers: [AppService, MessageRepository, BullProducer, BullProcessor],
 })
 export class AppModule {}
