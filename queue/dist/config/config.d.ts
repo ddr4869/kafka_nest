@@ -1,0 +1,11 @@
+export declare const DBHOST: string;
+export declare const DBPORT: number;
+export declare const DBNAME: string;
+export declare const DBUSER: string;
+export declare const DBPWD: string;
+export declare const REDISHOST: string;
+export declare const REDISPORT: number;
+export declare const REDISUSER: string;
+export declare const REDISPWD: string;
+export declare const LOGLEVEL: "info" | "error" | "warn" | "http" | "verbose" | "debug" | "silly";
+export declare const LOGPATH: string;
