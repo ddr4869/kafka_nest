@@ -22,6 +22,7 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+nestjs-kafka-microservices
 
 # IDEs and editors
 /.idea
