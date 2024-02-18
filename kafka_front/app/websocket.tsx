@@ -15,6 +15,7 @@ export const Websocket = () => {
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([] as Message[]);
   const [newMessage, setNewMessage] = useState([] as Message[]);
+  const [me, setMe] = useState('');
   const socket = useContext(WebsocketContext);
 
   useEffect(() => {
@@ -31,75 +32,81 @@ export const Websocket = () => {
 
     // 소켓 이벤트 핸들러 해제
     return () => {
-      console.log('Unregistering Events...');
-      socket.off('connect');
-      socket.off('onMessage');
+        console.log('Unregistering Events...');
+        socket.off('connect');
+        socket.off('onMessage');
+      };
+    }, []); // socket 의존성 추가
+
+      socket.on('connect', () => {
+        console.log('Connected!');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected!');
+        socket.disconnect();
+      });
+
+      socket.on('onMessage', (inputMessage: Message) => {
+        setNewMessage([...newMessage, new Message(inputMessage.writer, inputMessage.message)]);
+      });
+
+    const onSubmit = () => {
+      if (value == '' || socket.id === undefined) {
+        return;
+      }
+      setMe(socket.id.substring(0,8));
+      console.log('me:', me);
+      socket.emit('newMessage', {writer:socket.id.substring(0,8), message: value});
+      setValue('');
     };
-  }, []); // socket 의존성 추가
-
-    socket.on('connect', () => {
-      console.log('Connected!');
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected!');
-      socket.disconnect();
-    });
-
-    socket.on('onMessage', (inputMessage: Message) => {
-      setNewMessage([...newMessage, new Message(inputMessage.writer, inputMessage.message)]);
-    });
-
-  const onSubmit = () => {
-    if (value == '' || socket.id === undefined) {
-      return;
-    }
-    socket.emit('newMessage', {writer:socket.id.substring(0,8), message: value});
-    setValue('');
-  };
-
-  return (
-    <div>
-      <div>
-        <h1>Websocket Component</h1>
-        <div>
-          {messages.length === 0 && newMessage.length === 0 ? (
-            <div>No Messages</div>
-          ) : (
-            <div>
-              {messages.slice().reverse().map((msg) => (
-                <div>
-                  <p>{msg.writer}: {msg.message}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        <div>
-          {newMessage.length === 0 ? null : (
-            <div>
-              {newMessage.map((msg) => (
-                <div>
-                  <p>{msg.writer}: {msg.message}</p>
-                </div>
-              ))}
-            </div>
-          )}    
-        </div>
-        <div>
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                onSubmit();
-              }
-            }}
-          />
-          <button onClick={onSubmit}>Submit</button>
-        </div>
+    
+    return (
+      <div className="container">
+      <div className="header">
+        <h1>Websocket Chat</h1>
       </div>
-    </div>
+      <div className="messages">
+        {messages.length === 0 && newMessage.length === 0 ? (
+          <div>No Messages</div>
+        ) : (
+          <div>
+            {messages.slice().reverse().map((msg, index) => (
+              <div key={index} className="message">
+                 <p><strong>{msg.writer}</strong>: {msg.message}</p> 
+              </div>
+            ))}
+          </div>
+        )}
+        {newMessage.length > 0 && (
+          <div>
+            {newMessage.map((msg, index) => (
+              <div key={index} className="message">
+                                  {msg.writer === me ? (
+                            <p><strong>me</strong>: {msg.message}</p>
+                          ) : (
+                            <p><strong>{msg.writer}</strong>: {msg.message}</p>
+                          )}
+                {/* <p><strong>{msg.writer}</strong>: {msg.message}</p> */}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="input-area">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              onSubmit();
+            }
+          }}
+          placeholder="Type your message here..."
+        />
+        <button onClick={onSubmit}>Send</button>
+      </div>
+  </div>
   );
 };
