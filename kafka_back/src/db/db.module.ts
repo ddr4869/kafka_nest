@@ -18,4 +18,4 @@ import { MessageRepository } from './message/message.repository';
   controllers: [],
   providers: [MessageRepository],
 })
-export class EntityModule {}
+export class DbModule {}

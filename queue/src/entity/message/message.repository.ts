@@ -12,6 +12,8 @@ export class MessageRepository extends Repository<MessageEntity> {
 
   async createMessage(req: MessageDto): Promise<MessageEntity> {
     const entity:MessageEntity = new MessageEntity(req.message, req.writer, new Date());
-    return super.create(entity);
+    super.create(entity);
+    await super.save(entity);
+    return 
   }
 }

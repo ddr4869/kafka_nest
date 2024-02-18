@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Inject, Delete } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   ClientKafka,
@@ -18,23 +18,29 @@ export class AppController {
       private readonly appService: AppService,
     ) {}
 
-  @Get()
-  async getHello() {
-    console.log('getHello');
-    return this.appService.getHello();
+  // @Get()
+  // async getHello() {
+  //   console.log('getHello');
+  //   return this.appService.getHello();
+  // }
+
+  @Get('messages') 
+  async getMessages() {
+    return this.appService.getMessages();
   }
 
-  @Post()
-  createOrder(): void 
-  {
-    //return this.appService.createOrder();
+  @Delete('messages')
+  async deleteMessages() {
+    this.appService.deleteMessages();
+    return "success"
   }
 
-  @Get('subscribe')
-  async subscribeToMessage() {
-    console.log('subscribeToMessage');
-    return this.appService.subscribeToMessage();
-  }
+
+  // @Get('subscribe')
+  // async subscribeToMessage() {
+  //   console.log('subscribeToMessage');
+  //   return this.appService.subscribeToMessage();
+  // }
   
   @EventPattern(TOPIC)
   async handleOrderCreated(data: any) {

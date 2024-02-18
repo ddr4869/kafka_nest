@@ -9,11 +9,11 @@ export class MessageEntity {
     @Column()
     writer: string;
     @Column()
-    created_at: Date;
+    createdAt: Date;
 
-    constructor(message: string, writer: string, created_at: Date) {
-        this.message = message;
+    constructor(writer: string, message: string) {
         this.writer = writer;
-        this.created_at = created_at;
+        this.message = message;
+        this.createdAt = new Date();
     }
 }
