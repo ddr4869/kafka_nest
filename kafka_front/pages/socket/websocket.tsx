@@ -62,13 +62,13 @@ export const Websocket = () => {
     ]);
   });
 
-  socket.on("onComing", (inputMessage: Message) => {
-    setNewMessage([
-      ...newMessage,
-      new Message(inputMessage.writer, inputMessage.message),
-    ]);
-    console.log("onComing: ", inputMessage);
-  });
+  // socket.on("onComing", (inputMessage: Message) => {
+  //   setNewMessage([
+  //     ...newMessage,
+  //     new Message(inputMessage.writer, inputMessage.message),
+  //   ]);
+  //   console.log("onComing: ", inputMessage);
+  // });
 
   const onSubmit = () => {
     if (value == "" || socket.id === undefined) {
