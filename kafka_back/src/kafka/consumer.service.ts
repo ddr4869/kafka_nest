@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from "@nestjs/common";
 import { Kafka, Consumer, ConsumerSubscribeTopics, ConsumerRunConfig } from "kafkajs";
 import { EventsGateway } from "src/kafka/gateway";
 require('dotenv').config();
 const TOPIC=process.env.KAFKA_TOPIC
 
 @Injectable()
-export class ConsumerService {
+export class ConsumerService implements OnApplicationShutdown{
     private readonly kafka: Kafka = new Kafka({
         clientId: TOPIC,
         brokers: ['localhost:9092']
@@ -34,6 +34,10 @@ export class ConsumerService {
         })
         this.consumers.push(consumer);
     }
+
+    // async onApplicationBootstrap() {
+    //     await this.consume({ topic: TOPIC, fromBeginning: true });
+    // }
 
     async onApplicationShutdown() {
         this.consumers.forEach(async consumer => {
