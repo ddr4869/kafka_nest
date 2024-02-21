@@ -6,20 +6,33 @@ import { MessageBody } from '@nestjs/websockets';
 import { MessageRepository } from 'src/db/message/message.repository';
 import { MessageEntity } from 'src/db/message/message.entity';
 import { createMessageDto } from 'src/db/message/message.dto';
+import { ProducerService } from 'src/kafka/producer.service';
+import { ConsumerService } from 'src/kafka/consumer.service';
+const TOPIC=process.env.KAFKA_TOPIC
 
 @WebSocketGateway({ cors: true })
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('EventsGateway');
-  constructor(private readonly messageRepository: MessageRepository) {}
+  constructor(
+    private readonly messageRepository: MessageRepository,
+    private readonly producerService: ProducerService,
+    //private readonly consumerService: ConsumerService
+    ) {}
 
   @SubscribeMessage('newMessage')
   onNewMessage(@MessageBody() data: any) {
-    console.log("data.writer: ", data.writer)
-    this.server.emit('onMessage', {
-      writer: data.writer,
-      message: data.message
+    this.producerService.produce({
+      topic: TOPIC,
+      messages: [{ 
+          key: data.writer,
+          value: data.message
+        }]
     });
+    // this.server.emit('onMessage', {
+    //   writer: data.writer,
+    //   message: data.message
+    // });
     let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message));
     console.log("entity!: ", entity);
     return data;
@@ -31,10 +44,10 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client Connected : ${client.id}`);
-    this.server.emit('onComing', {
-      writer: client.id,
-      message: "방에 입장하셨습니다."
-    });
+    // this.server.emit('onComing', {
+    //   writer: client.id,
+    //   message: "방에 입장하셨습니다."
+    // });
   }
 
   handleDisconnect(client: Socket) {

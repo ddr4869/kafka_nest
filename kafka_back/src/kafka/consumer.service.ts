@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Kafka, Consumer, ConsumerSubscribeTopics, ConsumerRunConfig } from "kafkajs";
+import { EventsGateway } from "src/kafka/gateway";
 require('dotenv').config();
 const TOPIC=process.env.KAFKA_TOPIC
 
@@ -10,13 +11,19 @@ export class ConsumerService {
         brokers: ['localhost:9092']
     })
     private readonly consumers: Consumer[] = [];
-    
+    constructor(
+         private readonly eventsGateway : EventsGateway
+    ) {}
     async consume(topics: ConsumerSubscribeTopics) {
         const consumer = this.kafka.consumer({ groupId: TOPIC+'-consumer' });
         await consumer.connect();
         await consumer.subscribe(topics);
         await consumer.run({
             eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
+                this.eventsGateway.server.emit('onMessage', {
+                    writer: message.key.toString(),
+                    message: message.value.toString()
+                });
                 console.log({
                     topic: topic,
                     key: message.key.toString(),
