@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { WebsocketContext } from "./WebsocketContext";
-import  ChatComponent  from "./components/chatComponent";
+import { useSession, SessionProvider } from "next-auth/react";
+import { WebsocketContext } from "./websocketContext";
+import  ChatComponent  from "../components/chatComponent";
 
 class Message {
   writer: string;
@@ -15,9 +16,15 @@ class Message {
 export const Websocket = () => {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState([] as Message[]);
-  const [newMessage, setNewMessage] = useState([] as Message[]);
+  const [newMessage, setNewMessage] = useState([new Message("me", "방에 입장하셨습니다.")] as Message[]);
   const [me, setMe] = useState("");
   const socket = useContext(WebsocketContext);
+  const { data: session, status } = useSession()
+
+  useEffect(() => {
+    if (!session) return;
+    console.log('Current session:', session);
+  }, []);
 
   useEffect(() => {
     console.log("query Messages start!");
@@ -55,6 +62,14 @@ export const Websocket = () => {
     ]);
   });
 
+  socket.on("onComing", (inputMessage: Message) => {
+    setNewMessage([
+      ...newMessage,
+      new Message(inputMessage.writer, inputMessage.message),
+    ]);
+    console.log("onComing: ", inputMessage);
+  });
+
   const onSubmit = () => {
     if (value == "" || socket.id === undefined) {
       return;
@@ -68,6 +83,8 @@ export const Websocket = () => {
   };
 
   return (
-    <ChatComponent  messages={messages} newMessage={newMessage} me={me} value={value} setValue={setValue} onSubmit={onSubmit} />
+    <div>
+      <ChatComponent  messages={messages} newMessage={newMessage} me={me} value={value} setValue={setValue} onSubmit={onSubmit} />
+    </div>
   );
 };

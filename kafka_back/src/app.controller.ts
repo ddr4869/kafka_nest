@@ -9,7 +9,7 @@ import {
   EventPattern,
 } from '@nestjs/microservices';
 require('dotenv').config();
-const TOPIC=process.env.TOPIC
+const TOPIC=process.env.KAFKA_TOPIC
 
 @Controller()
 export class AppController {
@@ -18,11 +18,10 @@ export class AppController {
       private readonly appService: AppService,
     ) {}
 
-  // @Get()
-  // async getHello() {
-  //   console.log('getHello');
-  //   return this.appService.getHello();
-  // }
+  @Get()
+  async getHello() {
+    return this.appService.getHello();
+  }
 
   @Get('messages') 
   async getMessages() {
@@ -36,25 +35,20 @@ export class AppController {
   }
 
 
-  // @Get('subscribe')
-  // async subscribeToMessage() {
-  //   console.log('subscribeToMessage');
-  //   return this.appService.subscribeToMessage();
-  // }
+  @Get('subscribe')
+  async subscribeToMessage() {
+    return this.appService.subscribeToMessage();
+  }
   
   @EventPattern(TOPIC)
   async handleOrderCreated(data: any) {
-    console.log('EventPattern: ', data.value);
     //this.appService.handleOrderCreated(data.value);
   }
 
   @MessagePattern(TOPIC)
   readMessage(@Payload() message: any, @Ctx() context: KafkaContext) {
-    console.log('MessagePattern: ', message);
     const originalMessage = context.getMessage();
     const response = originalMessage.value;
-    console.log('response: ', response);
-    //console.log(originalMessage.value);
     return response;
   }
 }

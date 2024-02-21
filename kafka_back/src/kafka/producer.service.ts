@@ -1,7 +1,7 @@
 import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common';
 import { Kafka, Producer, ProducerRecord } from 'kafkajs';
 require('dotenv').config();
-const TOPIC=process.env.TOPIC
+const TOPIC=process.env.KAFKA_TOPIC
 
 @Injectable()
 export class ProducerService implements OnApplicationBootstrap, OnApplicationShutdown {

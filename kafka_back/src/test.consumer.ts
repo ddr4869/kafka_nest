@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ConsumerService } from "./kafka/consumer.service";
 require('dotenv').config();
-const TOPIC=process.env.TOPIC
+const TOPIC=process.env.KAFKA_TOPIC
 
 @Injectable()
 export class TestConsumer implements OnModuleInit{

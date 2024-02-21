@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Kafka, Consumer, ConsumerSubscribeTopics, ConsumerRunConfig } from "kafkajs";
 require('dotenv').config();
-const TOPIC=process.env.TOPIC
+const TOPIC=process.env.KAFKA_TOPIC
 
 @Injectable()
 export class ConsumerService {
@@ -12,8 +12,6 @@ export class ConsumerService {
     private readonly consumers: Consumer[] = [];
     
     async consume(topics: ConsumerSubscribeTopics) {
-        console.log("topic: ", topics)
-        console.log("Consumers length:", this.consumers.length)
         const consumer = this.kafka.consumer({ groupId: TOPIC+'-consumer' });
         await consumer.connect();
         await consumer.subscribe(topics);

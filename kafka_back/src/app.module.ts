@@ -14,7 +14,7 @@ import { ConsumerService } from './kafka/consumer.service';
 
 @Module({
   imports: [
-    //KafkaModule,
+    KafkaModule,
     //GatewayModule,
     DbModule,
     
