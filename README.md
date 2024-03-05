@@ -1,5 +1,7 @@
 ## Kafka 클러스터 구성하기
 
+### https://kafka.apache.org/downloads 
+
 `~/go/src/github.com/kafka_2.13-3.3.1`
 
 1. zookeeper로 kafka 시작
