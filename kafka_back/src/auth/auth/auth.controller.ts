@@ -1,13 +1,14 @@
 import { Body, Controller, Post, HttpCode, HttpStatus, UseGuards, Get, Request, SetMetadata } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
-import { Roles } from '../role/roles.decorator';
-import { Role } from '../role/role.enum';
-import { RolesGuard } from '../role/roles.guard';
-@Controller('auth')
+import { AuthGuard } from '@auth/auth.guard';
+import { AuthService } from '@auth/auth.service';
+import { Role, Roles, RolesGuard } from '@role';
+
 @Roles(Role.User)
+@Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService
+    ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')

@@ -1,24 +1,20 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { KafkaModule } from './kafka/kafka.module';
-import { TestConsumer } from './test.consumer';
-import { Db } from 'typeorm';
-import { DbModule } from './db/db.module';
 import { MessageRepository } from './db/message/message.repository';
-import { ProducerService } from './kafka/producer.service';
-import { ConsumerService } from './kafka/consumer.service';
 import { LoggerMiddleware } from './common/logger.middleware';
-import { AuthModule } from './apps/main/src/auth/auth.module';
-import { UsersModule } from './apps/main/src/users/users.module';
+import { AuthModule } from '@auth';
+import { UserModule } from '@user/user.module';
+
+import { ProducerService, ConsumerService, KafkaModule } from '@kafka';
+import { DbModule } from '@db';
 
 @Module({
   imports: [
     KafkaModule,
     DbModule,
     AuthModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, MessageRepository],

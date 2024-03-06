@@ -16,6 +16,50 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@auth": [
+        "src/auth/auth"
+      ],
+      "@auth/*": [
+        "src/auth/auth/*"
+      ],
+      "@role": [
+        "src/auth/role"
+      ],
+      "@role/*": [
+        "src/auth/role/*"
+      ],
+      "@common": [
+        "src/common"
+      ],
+      "@common/*": [
+        "src/common/*"
+      ],
+      "@config": [
+        "src/config"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@db": [
+        "src/db"
+      ],
+      "@db/*": [
+        "src/db/*"
+      ],
+      "@kafka": [
+        "src/kafka"
+      ],
+      "@kafka/*": [
+        "src/kafka/*"
+      ],
+      "@user": [
+        "src/user"
+      ],
+      "@user/*": [
+        "src/user/*"
+      ],
+    }
   }
 }

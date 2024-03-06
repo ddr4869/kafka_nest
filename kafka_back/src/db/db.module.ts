@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as config from '../config/config';
+import * as config from '@config';
+
 import { MessageRepository } from './message/message.repository';
+import { UserRepository } from './user/user.repository';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -16,6 +18,6 @@ import { MessageRepository } from './message/message.repository';
     }),
   ],
   controllers: [],
-  providers: [MessageRepository],
+  providers: [MessageRepository, UserRepository],
 })
 export class DbModule {}

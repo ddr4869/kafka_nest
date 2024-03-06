@@ -32,6 +32,7 @@
     "dotenv": "^16.4.4",
     "env-var": "^7.4.1",
     "kafkajs": "^2.2.4",
+    "module-alias": "^2.2.3",
     "mysql2": "^3.9.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
