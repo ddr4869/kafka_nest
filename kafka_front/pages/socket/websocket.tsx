@@ -22,9 +22,13 @@ export const Websocket = () => {
   const { data: session, status } = useSession()
 
   useEffect(() => {
-    if (!session) return;
+    if (!session) {
+      console.log('No session');
+      console.log('status:', status);
+      return;
+    }
     console.log('Current session:', session);
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     console.log("query Messages start!");

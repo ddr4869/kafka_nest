@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Inject, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Inject, Delete, UseGuards, Request } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   ClientKafka,
@@ -8,6 +8,7 @@ import {
   Payload,
   EventPattern,
 } from '@nestjs/microservices';
+import { AuthGuard } from '@nestjs/passport';
 require('dotenv').config();
 const TOPIC=process.env.KAFKA_TOPIC
 
@@ -21,6 +22,12 @@ export class AppController {
   @Get()
   async getHello() {
     return this.appService.getHello();
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  async login(@Request() req) {
+    return req.user;
   }
 
   @Get('messages') 

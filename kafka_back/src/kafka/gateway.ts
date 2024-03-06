@@ -45,7 +45,7 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client Connected : ${client.id}`);
     this.server.emit('onComing', {
-      writer: client.id,
+      writer: client.id.substring(0, 8),
       message: "방에 입장하셨습니다."
     });
   }

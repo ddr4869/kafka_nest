@@ -1,7 +1,9 @@
 import React from "react";
 import MsgComponent from "./msgComponent";
+import { useRef, useEffect } from "react";
 
 const ChatComponent = ({ messages, newMessage, me, value, setValue, onSubmit }) => (
+
   <div className="container">
     <div className="header">
       <h1>Websocket Chat</h1>
