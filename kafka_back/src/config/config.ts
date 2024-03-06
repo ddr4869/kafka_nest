@@ -42,3 +42,14 @@ export const KAFKATOPIC = env
     .get('KAFKA_TOPIC')
     .default('test')
     .asString();
+
+
+export const JWTSECRET = env
+    .get('JWT_SECRET')
+    .default('secret')
+    .asString();
+
+export const JWTEXPIRE = env
+    .get('JWT_EXPIRES_IN')
+    .default('60s')
+    .asString();

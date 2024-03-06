@@ -7,8 +7,8 @@ export class UserEntity {
     id: number;
     @Column()
     username: string;
-    @Column()
-    password: string;
+    @Column() 
+    password: string; // TODO: hash password
     @Column()
     role: number;
     @Column()
