@@ -4,17 +4,10 @@ import { DbModule } from '@db/db.module';
 import { UserModule } from './user.module';
 import { UserService } from './user.service';
 import { SigninDto, UserRepository } from '@db/user';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { Db } from 'typeorm';
-import * as config from '@config/config';
 import { UserController } from './user.controller';
 import { AuthModule } from '@auth/auth.module';
-import { KafkaModule } from '@kafka/kafka.module';
 import { AppController } from '../app.controller';
 import { AppService } from '../app.service';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpExceptionFilter } from '@common/exception/http-exception.filter';
-import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 
 describe('UserService', () => {
   let userController: UserController;

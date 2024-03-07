@@ -1,0 +1,19 @@
+{
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "..",
+    "testEnvironment": "node",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+        "@auth/(.*)$": "<rootDir>/src/auth/auth/$1",
+        "@role/(.*)$": "<rootDir>/src/auth/role/$1",
+        "@common/(.*)$": "<rootDir>/src/common/$1",
+        "@config/(.*)$": "<rootDir>/src/config/$1",
+        "@db/(.*)$": "<rootDir>/src/db/$1",
+        "@kafka/(.*)$": "<rootDir>/src/kafka/$1",
+        "@user/(.*)$": "<rootDir>/src/user/$1"
+      }
+}
+  
