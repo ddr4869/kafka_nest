@@ -16,46 +16,46 @@ const TOPIC=process.env.KAFKA_TOPIC
 export class AppController {
 
   constructor(
-      private readonly appService: AppService,
+      //private readonly appService: AppService,
     ) {}
 
-  @Get()
-  async getHello() {
-    return this.appService.getHello();
-  }
+  // @Get()
+  // async getHello() {
+  //   return this.appService.getHello();
+  // }
 
-  @UseGuards(AuthGuard('local'))
-  @Post('login')
-  async login(@Request() req) {
-    return req.user;
-  }
+  // @UseGuards(AuthGuard('local'))
+  // @Post('login')
+  // async login(@Request() req) {
+  //   return req.user;
+  // }
 
-  @Get('messages') 
-  async getMessages() {
-    return this.appService.getMessages();
-  }
+  // @Get('messages') 
+  // async getMessages() {
+  //   return this.appService.getMessages();
+  // }
 
-  @Delete('messages')
-  async deleteMessages() {
-    this.appService.deleteMessages();
-    return "success"
-  }
+  // @Delete('messages')
+  // async deleteMessages() {
+  //   this.appService.deleteMessages();
+  //   return "success"
+  // }
 
 
-  @Get('subscribe')
-  async subscribeToMessage() {
-    return this.appService.subscribeToMessage();
-  }
+  // @Get('subscribe')
+  // async subscribeToMessage() {
+  //   return this.appService.subscribeToMessage();
+  // }
   
-  @EventPattern(TOPIC)
-  async handleOrderCreated(data: any) {
-    //this.appService.handleOrderCreated(data.value);
-  }
+  // @EventPattern(TOPIC)
+  // async handleOrderCreated(data: any) {
+  //   //this.appService.handleOrderCreated(data.value);
+  // }
 
-  @MessagePattern(TOPIC)
-  readMessage(@Payload() message: any, @Ctx() context: KafkaContext) {
-    const originalMessage = context.getMessage();
-    const response = originalMessage.value;
-    return response;
-  }
+  // @MessagePattern(TOPIC)
+  // readMessage(@Payload() message: any, @Ctx() context: KafkaContext) {
+  //   const originalMessage = context.getMessage();
+  //   const response = originalMessage.value;
+  //   return response;
+  // }
 }

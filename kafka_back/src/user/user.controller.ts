@@ -2,7 +2,9 @@ import { Controller, Post, Body, Get, Req, UseGuards, HttpCode, HttpStatus, UseF
 import { User, UserService } from "./user.service";
 import { CreateUserDto, SigninDto } from "@db/user";
 import { AuthGuard } from '@auth/auth.guard'
-import { Role, Roles, RolesGuard } from "@role";
+import { RolesGuard } from "@role/roles.guard";
+import { Role } from "@role/role.enum";
+import { Roles } from "@role/roles.decorator";
 
 @Controller("user")
 @Roles(Role.User)

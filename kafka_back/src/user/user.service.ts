@@ -15,6 +15,7 @@ export class UserService {
 
   
   async signIn(signinDto: SigninDto){
+    console.log("signinDto: ", signinDto )
     const user = await this.userRepository.findOne({
       where: {
         username:signinDto.username,
@@ -24,7 +25,9 @@ export class UserService {
     if (user?.password !== signinDto.password) {
       throw new UnauthorizedException();
     }
+    console.log("user name: ", user.username )
     const payload = { sub: user.id, username: user.username, role: user.role};
+    console.log(payload)
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

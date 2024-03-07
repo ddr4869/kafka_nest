@@ -3,11 +3,10 @@ import { SubscribeMessage, WebSocketGateway, OnGatewayInit, OnGatewayConnection,
 import { Logger, UseInterceptors, OnModuleInit } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { MessageBody } from '@nestjs/websockets';
-import { MessageRepository } from 'src/db/message/message.repository';
-import { MessageEntity } from 'src/db/message/message.entity';
-import { createMessageDto } from 'src/db/message/message.dto';
-import { ProducerService } from 'src/kafka/producer.service';
-import { ConsumerService } from 'src/kafka/consumer.service';
+import { MessageRepository } from '@db/message/message.repository';
+import { createMessageDto } from '@db/message/message.dto';
+import { ProducerService } from '@kafka/producer.service';
+import { ConsumerService } from '@kafka/consumer.service';
 const TOPIC=process.env.KAFKA_TOPIC
 
 @WebSocketGateway({ cors: true })

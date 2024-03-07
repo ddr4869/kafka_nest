@@ -13,19 +13,19 @@ const TOPIC=process.env.KAFKA_TOPIC
 @Injectable()
 export class AppService {
   constructor ( 
-    private readonly producerService: ProducerService,
-    private readonly consumerService:ConsumerService,
+    //private readonly producerService: ProducerService,
+    // private readonly consumerService:ConsumerService,
     private readonly messageRepository: MessageRepository
   ) {}
 
   async getHello(): Promise<string> {
-    await this.producerService.produce({ 
-      topic: TOPIC, 
-      messages: [{ 
-        key: 'key',
-        value: 'Hello Kafka' 
-      }] 
-    });
+    // await this.producerService.produce({ 
+    //   topic: TOPIC, 
+    //   messages: [{ 
+    //     key: 'key',
+    //     value: 'Hello Kafka' 
+    //   }] 
+    // });
     return 'Hello World!';
   }
 
@@ -33,15 +33,15 @@ export class AppService {
     return this.messageRepository.queryMessages(new queryMessagesDto());
   }
 
-  async deleteMessages(): Promise<void> {
-    return this.messageRepository.clearMessages();
-  }
+  // async deleteMessages(): Promise<void> {
+  //   return this.messageRepository.clearMessages();
+  // }
 
-  async createOrder({userId, price}:CreateOrderRequest) {
+  // async createOrder({userId, price}:CreateOrderRequest) {
 
-  }
+  // }
 
-  async subscribeToMessage() {
-    await this.consumerService.consume({topics:[TOPIC],fromBeginning:true})  //{topic: 'eklee', config: { fromBeginning: true }});
-  }
+  // async subscribeToMessage() {
+  //   await this.consumerService.consume({topics:[TOPIC],fromBeginning:true})  //{topic: 'eklee', config: { fromBeginning: true }});
+  // }
 }

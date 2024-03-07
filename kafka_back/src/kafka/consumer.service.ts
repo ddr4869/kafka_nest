@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from "@nestjs/common";
 import { Kafka, Consumer, ConsumerSubscribeTopics, ConsumerRunConfig } from "kafkajs";
-import { EventsGateway } from "src/kafka/gateway";
+import { EventsGateway } from "@kafka/gateway";
 require('dotenv').config();
 const TOPIC=process.env.KAFKA_TOPIC
 
