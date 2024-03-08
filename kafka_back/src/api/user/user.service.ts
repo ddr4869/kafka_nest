@@ -3,6 +3,7 @@ import { CreateUserDto, SigninDto, FriendDto } from './user.dto';
 import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException, UseFilters } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as BcryptUtils from '@utils/bcrypt';
 import { UserEntity } from '@db/user';
 import { FriendRepository } from '@db/friend/friend.repository';
 import { FriendEntity } from '@db/friend/friend.entity';
@@ -24,7 +25,7 @@ export class UserService {
     if (!user) {
       throw new UnauthorizedException();
     }
-    let valid = await this.isHashValid(signinDto.password, user?.password)
+    let valid = await BcryptUtils.isHashValid(signinDto.password, user?.password)
 
     if (!valid) {
       throw new UnauthorizedException();
@@ -44,7 +45,7 @@ export class UserService {
   }
 
   async createUser(userDto: CreateUserDto): Promise<UserEntity | undefined> {
-    userDto.password = await this.hash(userDto.password)
+    userDto.password = await BcryptUtils.hash(userDto.password)
     return this.userRepository.createUser(userDto);
   }
 
@@ -53,22 +54,12 @@ export class UserService {
     if (!user) {
       throw new BadRequestException("User " + userDto.friend + " not found");
     }
-    let friend = this.friendRepository.findOne({ where: { username: userDto.username, friend: userDto.friend } } )
+    console.log("user !! : ", userDto.username, userDto.friend)
+    let friend = await this.friendRepository.findOne({ where: { username: userDto.username, friend: userDto.friend } } )
     if (friend) {
       throw new BadRequestException("Already friends!");
     }
     return await this.friendRepository.addFriend(userDto);
   }
-
-  hash = async (plainText: string): Promise<string> => {
-    const saltOrRounds = 10;
-    let result = await bcrypt.hash(plainText, saltOrRounds)
-    return result;
-  };
-
-  isHashValid = (password, hashPassword): Promise<boolean> => {
-    let result = bcrypt.compare(password, hashPassword);
-    return result;
-  };
 }
 

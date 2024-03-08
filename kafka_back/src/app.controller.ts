@@ -24,12 +24,6 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @UseGuards(AuthGuard('local'))
-  @Post('login')
-  async login(@Request() req) {
-    return req.user;
-  }
-
   @Get('messages') 
   async getMessages() {
     return this.appService.getMessages();

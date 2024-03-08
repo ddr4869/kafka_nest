@@ -7,13 +7,16 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
+        "@utils/(.*)$": "<rootDir>/src/utils/$1",
         "@auth/(.*)$": "<rootDir>/src/auth/auth/$1",
         "@role/(.*)$": "<rootDir>/src/auth/role/$1",
         "@common/(.*)$": "<rootDir>/src/common/$1",
         "@config/(.*)$": "<rootDir>/src/config/$1",
         "@db/(.*)$": "<rootDir>/src/db/$1",
-        "@kafka/(.*)$": "<rootDir>/src/kafka/$1",
-        "@user/(.*)$": "<rootDir>/src/user/$1"
+        "@kafka/(.*)$": "<rootDir>/src/api/kafka/$1",
+        "@user/(.*)$": "<rootDir>/src/api/user/$1",
+        "@friend/(.*)$": "<rootDir>/src/api/friend/$1",
+        "@board/(.*)$": "<rootDir>/src/api/board/$1"
       }
 }
   

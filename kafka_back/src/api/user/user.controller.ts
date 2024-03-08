@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Get, Req, UseGuards, HttpCode, HttpStatus, UseFilters, ForbiddenException, BadRequestException, InternalServerErrorException } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { FriendDto, CreateUserDto, SigninDto, UserEntity } from "@db/user";
+import { UserEntity } from "@db/user/user.entity";
+import { FriendDto, CreateUserDto, SigninDto } from "./user.dto";
 import { AuthGuard } from '@auth/auth.guard'
 import { RolesGuard } from "@role/roles.guard";
 import { Role } from "@role/role.enum";

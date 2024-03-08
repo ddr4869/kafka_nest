@@ -10,13 +10,15 @@ import { ProducerService, ConsumerService, KafkaModule } from '@kafka';
 import { DbModule } from '@db/db.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
-    KafkaModule,
     DbModule,
     AuthModule,
-    UserModule,
+    ApiModule,
+    //UserModule,
+    KafkaModule,
   ],
   controllers: [AppController],
   providers: [AppService, MessageRepository,

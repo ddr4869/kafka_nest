@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { FriendDto, CreateUserDto } from "../../user/user.dto";
+import { FriendDto, CreateUserDto } from "@user/user.dto";
 import { DataSource, Repository, FindOneOptions, FindManyOptions } from "typeorm";
 import { FriendEntity } from "./friend.entity";
 

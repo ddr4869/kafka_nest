@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { ProducerService } from './kafka/producer.service';
-import { ConsumerService } from './kafka/consumer.service';
+import { ProducerService } from '@kafka/producer.service';
+import { ConsumerService } from '@kafka/consumer.service';
 import { CreateOrderRequest, OrderCreateEvent } from './dto';
 import { MessageRepository } from './db/message/message.repository';
 import { queryMessagesDto } from './db/message/message.dto';

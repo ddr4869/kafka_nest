@@ -18,6 +18,12 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@utils": [
+        "src/utils"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
       "@auth": [
         "src/auth/auth"
       ],
@@ -49,16 +55,28 @@
         "src/db/*"
       ],
       "@kafka": [
-        "src/kafka"
+        "src/api/kafka"
       ],
       "@kafka/*": [
-        "src/kafka/*"
+        "src/api/kafka/*"
       ],
       "@user": [
-        "src/user"
+        "src/api/user"
       ],
       "@user/*": [
-        "src/user/*"
+        "src/api/user/*"
+      ],
+      "@friend": [
+        "src/api/friend"
+      ],
+      "@friend/*": [
+        "src/api/friend/*"
+      ],
+      "@board": [
+        "src/api/board"
+      ],
+      "@board/*": [
+        "src/api/board/*"
       ],
     }
   }
