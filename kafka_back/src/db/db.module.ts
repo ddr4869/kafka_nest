@@ -4,6 +4,7 @@ import * as config from '@config/config';
 
 import { MessageRepository } from './message/message.repository';
 import { UserRepository } from './user/user.repository';
+import { FriendRepository } from './friend/friend.repository';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,6 +19,6 @@ import { UserRepository } from './user/user.repository';
     }),
   ],
   controllers: [],
-  providers: [MessageRepository, UserRepository],
+  providers: [MessageRepository, UserRepository, FriendRepository],
 })
 export class DbModule {}

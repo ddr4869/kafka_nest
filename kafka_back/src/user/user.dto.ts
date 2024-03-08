@@ -18,3 +18,13 @@ export class SigninDto {
         this.password = password;
     }
 }
+
+export class FriendDto {
+    username: string;
+    friend: string;
+
+    constructor(username: string, friend: string) {
+        this.username = username;
+        this.friend = friend;
+    }
+}

@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity('user')
 @Unique(['username'])
@@ -12,12 +12,15 @@ export class UserEntity {
     @Column()
     role: number;
     @Column()
+    friends: string;
+    @Column()
     createdAt: Date;
-
+    
     constructor(username: string, password: string, role: number) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.friends = JSON.stringify([]);
         this.createdAt = new Date();
     }
 }

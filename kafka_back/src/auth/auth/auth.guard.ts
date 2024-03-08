@@ -16,6 +16,7 @@ import {
       const request = context.switchToHttp().getRequest();
       const token = this.extractTokenFromHeader(request);
       if (!token) {
+        console.log("no token")
         throw new UnauthorizedException();
       }
       console.log("token: ", token) 
