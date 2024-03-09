@@ -5,6 +5,9 @@ import * as config from '@config/config';
 import { MessageRepository } from './message/message.repository';
 import { UserRepository } from './user/user.repository';
 import { FriendRepository } from './friend/friend.repository';
+import { BoardRepository } from './board/board.repository';
+import { HotBoardEntity } from './hot_board/hotboard.entity';
+import { HotBoardRepository } from './hot_board/hotboard.repository';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,6 +22,6 @@ import { FriendRepository } from './friend/friend.repository';
     }),
   ],
   controllers: [],
-  providers: [MessageRepository, UserRepository, FriendRepository],
+  providers: [MessageRepository, UserRepository, FriendRepository, BoardRepository, HotBoardRepository],
 })
 export class DbModule {}

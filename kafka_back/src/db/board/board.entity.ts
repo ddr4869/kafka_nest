@@ -1,25 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { HotBoardEntity } from "@db/hot_board/hotboard.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('board')
 export class BoardEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    board_id: number;
     @Column()
-    name: string;
+    board_name: string;
     @Column()
     board_admin: string;
     @Column() 
     board_password: string; // TODO: hash password
     @Column()
-    star: number;
+    board_star: number;
     @Column()
     createdAt: Date;
+    @OneToOne(() => HotBoardEntity)
+    @JoinColumn()
+    hotBoard: HotBoardEntity;
     
-    constructor(name: string, board_admin:string, board_password: string) {
-        this.name = name;
+    constructor(board_name: string, board_admin:string, board_password: string) {
+        this.board_name = board_name;
         this.board_admin = board_admin;
         this.board_password = board_password;
-        this.star = 0;
+        this.board_star = 0;
         this.createdAt = new Date();
     }
 }

@@ -18,10 +18,14 @@ import { ApiModule } from './api/api.module';
     AuthModule,
     ApiModule,
     //UserModule,
-    KafkaModule,
+    //KafkaModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, MessageRepository,
+  controllers: [
+    //AppController
+  ],
+  providers: [
+    //AppService, 
+    MessageRepository,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

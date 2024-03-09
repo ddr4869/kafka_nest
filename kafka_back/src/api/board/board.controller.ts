@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Req, UseGuards, HttpCode, HttpStatus, UseFilters, ForbiddenException, BadRequestException, InternalServerErrorException } from "@nestjs/common";
+import { Controller, Post, Body, Get, Req, UseGuards, Delete, UsePipes, ValidationPipe } from "@nestjs/common";
 
 import { AuthGuard } from '@auth/auth.guard'
 import { RolesGuard } from "@role/roles.guard";
@@ -7,7 +7,7 @@ import { Roles } from "@role/roles.decorator";
 import * as bcrypt from 'bcrypt';
 import { FriendEntity } from "@db/friend/friend.entity";
 import { BoardService } from "./board.service";
-import { CreateBoardDto } from "./board.dto";
+import { CreateBoardDto, DeleteBoardDto, RecommendBoardDto } from "./board.dto";
 @Controller("board")
 @Roles(Role.User)
 export class BoardController {
@@ -16,7 +16,21 @@ export class BoardController {
     ) {}
 
     @Post('create')
+    @UseGuards(AuthGuard)
+    @UsePipes(ValidationPipe)
     creatgeBoard(@Body() createDto: CreateBoardDto ) {
         return this.boardService.createBoard(createDto);
+    }
+
+    @Post('recommend')
+    recommendBoard(@Body() recommendDto: RecommendBoardDto) {
+        return this.boardService.recommendBoard(recommendDto);
+    }
+
+    @Delete('delete')
+    @UseGuards(AuthGuard)
+    @UsePipes(ValidationPipe)
+    deleteBoard(@Body() deleteDto: DeleteBoardDto ) {
+        return this.boardService.deleteBoard(deleteDto);
     }
 }
