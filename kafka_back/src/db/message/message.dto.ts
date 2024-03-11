@@ -1,9 +1,13 @@
+import { BoardEntity } from "@db/board/board.entity";
+
 export class createMessageDto {
     writer: string;
     message: string;
-    constructor(writer: string, message: string) {
+    board: BoardEntity;
+    constructor(writer: string, message: string, board: BoardEntity) {
         this.writer = writer;
         this.message = message;
+        this.board = board;
     }
 }
 

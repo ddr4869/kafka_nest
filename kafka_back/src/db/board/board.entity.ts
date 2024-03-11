@@ -15,10 +15,7 @@ export class BoardEntity {
     board_star: number;
     @Column()
     createdAt: Date;
-    @OneToOne(() => HotBoardEntity)
-    @JoinColumn()
-    hotBoard: HotBoardEntity;
-    
+
     constructor(board_name: string, board_admin:string, board_password: string) {
         this.board_name = board_name;
         this.board_admin = board_admin;

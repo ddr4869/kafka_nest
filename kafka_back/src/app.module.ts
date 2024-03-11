@@ -17,14 +17,14 @@ import { ApiModule } from './api/api.module';
     DbModule,
     AuthModule,
     ApiModule,
-    //UserModule,
-    //KafkaModule,
+    UserModule,
+    KafkaModule,
   ],
   controllers: [
-    //AppController
+    AppController
   ],
   providers: [
-    //AppService, 
+    AppService, 
     MessageRepository,
     {
       provide: APP_FILTER,

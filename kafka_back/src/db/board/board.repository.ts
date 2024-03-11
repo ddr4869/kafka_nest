@@ -16,6 +16,20 @@ export class BoardRepository extends Repository<BoardEntity>{
         return entity;
     }
 
+    async getBoardByName(board_name: string): Promise<BoardEntity> {
+        const options: FindOneOptions<BoardEntity> = {
+            where: { board_name: board_name }
+        }
+        return await super.findOne(options);
+    }
+
+    async getBoardIdByName(board_name: string): Promise<number> {
+        const options: FindOneOptions<BoardEntity> = {
+            where: { board_name: board_name }
+        }
+        const board: BoardEntity = await super.findOne(options);
+        return board.board_id;
+    }
 
     async deleteBoard(board_id: number): Promise<any> {
         // delete board

@@ -12,7 +12,7 @@ export class MessageRepository extends Repository<MessageEntity>{
     }
     
     async createMessage(dto: createMessageDto): Promise<any> {
-        const entity: MessageEntity = super.create(new MessageEntity(dto.writer, dto.message));
+        const entity: MessageEntity = super.create(new MessageEntity(dto.writer, dto.message, dto.board));
         await super.save(entity);
         console.log("createMessage success!")
         return entity;

@@ -7,6 +7,7 @@ import { MessageRepository } from '@db/message/message.repository';
 import { createMessageDto } from '@db/message/message.dto';
 import { ProducerService } from '@kafka/producer.service';
 import { ConsumerService } from '@kafka/consumer.service';
+import { BoardRepository } from '@db/board/board.repository';
 const TOPIC=process.env.KAFKA_TOPIC
 
 @WebSocketGateway({ cors: true })
@@ -15,12 +16,13 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   private logger: Logger = new Logger('EventsGateway');
   constructor(
     private readonly messageRepository: MessageRepository,
+    private readonly boardRepository: BoardRepository,
     private readonly producerService: ProducerService,
     //private readonly consumerService: ConsumerService
     ) {}
 
   @SubscribeMessage('newMessage')
-  onNewMessage(@MessageBody() data: any) {
+  async onNewMessage(@MessageBody() data: any) {
     this.producerService.produce({
       topic: TOPIC,
       messages: [{ 
@@ -32,7 +34,9 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     //   writer: data.writer,
     //   message: data.message
     // });
-    let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message));
+
+    let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
+    let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity));
     console.log("entity!: ", entity);
     return data;
   }

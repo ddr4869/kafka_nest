@@ -29,7 +29,9 @@ export class BoardService {
 
     if (board.board_star == 10) {
       // hot board
-      this.hotBoardRepository.createRecommendBoard(new CreateRecommendBoardDto(board.board_id, board.board_star));
+      //this.hotBoardRepository.createRecommendBoard(new CreateRecommendBoardDto(board.board_id, board.board_star));
+      console.log("createRecommendBoard2 test")
+      this.hotBoardRepository.createRecommendBoard2(board);
     }
 
     return new BoardResultDto(
