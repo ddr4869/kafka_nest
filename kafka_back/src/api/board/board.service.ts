@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { BoardRepository } from '@db/board/board.repository';
 import { BoardResultDto, CreateBoardDto, CreateRecommendBoardDto, DeleteBoardDto, RecommendBoardDto } from './board.dto';
 import { HotBoardRepository } from '@db/hot_board/hotboard.repository';
+import { BoardEntity } from '@db/board/board.entity';
 
 @Injectable()
 export class BoardService {
@@ -19,6 +20,10 @@ export class BoardService {
     return this.boardRepository.createBoard(boardDto);
   }
 
+  async getBoards(): Promise<BoardEntity[] | undefined> {
+    return this.boardRepository.find();
+  }
+
   async recommendBoard(boardDto: RecommendBoardDto): Promise<any> {
     let board = await this.boardRepository.findOne({ where: { board_id: boardDto.board_id } });
     if (!board) {
@@ -29,9 +34,7 @@ export class BoardService {
 
     if (board.board_star == 10) {
       // hot board
-      //this.hotBoardRepository.createRecommendBoard(new CreateRecommendBoardDto(board.board_id, board.board_star));
-      console.log("createRecommendBoard2 test")
-      this.hotBoardRepository.createRecommendBoard2(board);
+      this.hotBoardRepository.createRecommendBoard(board);
     }
 
     return new BoardResultDto(

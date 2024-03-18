@@ -11,13 +11,8 @@ export class HotBoardRepository extends Repository<HotBoardEntity>{
         super(HotBoardEntity, dataSource.createEntityManager());
     }
     
-    async createRecommendBoard(dto: CreateRecommendBoardDto): Promise<any> {
-        const entity: HotBoardEntity = super.create(new HotBoardEntity());
-        await super.save(entity);
-        return entity;
-    }
 
-    async createRecommendBoard2(board :BoardEntity): Promise<any> {
+    async createRecommendBoard(board :BoardEntity): Promise<any> {
         let hotBoard = new HotBoardEntity();
         hotBoard.Board = board;
         const entity: HotBoardEntity = super.create(hotBoard);

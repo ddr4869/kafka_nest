@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useSession, SessionProvider } from "next-auth/react";
 import { WebsocketContext } from "./websocketContext";
 import  ChatComponent  from "../components/chatComponent";
-
+import { useRouter } from "next/router";
 class Message {
   writer: string;
   message: string;
@@ -20,6 +20,17 @@ export const Websocket = () => {
   const [me, setMe] = useState("");
   const socket = useContext(WebsocketContext);
   const { data: session, status } = useSession()
+  
+
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    let username = localStorage.getItem('username');
+    if (username === null) {
+      const router = useRouter();
+      router.push("/login")
+    }
+  
+  }
 
   useEffect(() => {
     if (!session) {
@@ -32,11 +43,10 @@ export const Websocket = () => {
 
   useEffect(() => {
     console.log("query Messages start!");
-    fetch("http://127.0.0.1:8080/messages")
+    fetch("http://127.0.0.1:8080/api/messages")
       .then((response) => response.json())
       .then((data) => {
-        // 서버로부터 받은 데이터에서 메시지만 추출하여 문자열 배열로 저장합니다.
-        setMessages(data.map((item) => new Message(item.writer, item.message)));
+        setMessages(data.data.map((item) => new Message(item.writer, item.message)));
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
@@ -51,6 +61,9 @@ export const Websocket = () => {
   }, []); // socket 의존성 추가
 
   socket.on("connect", () => {
+    socket.emit("newMessage", {
+      username: username,
+    });
     console.log("Connected!");
   });
 
@@ -78,9 +91,9 @@ export const Websocket = () => {
     if (value == "" || socket.id === undefined) {
       return;
     }
-    setMe(socket.id.substring(0, 8));
+    setMe(username ? username : socket.id.substring(0, 8));
     socket.emit("newMessage", {
-      writer: socket.id.substring(0, 8),
+      writer: username,
       message: value,
     });
     setValue("");

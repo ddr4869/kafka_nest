@@ -45,6 +45,10 @@ export class UserService {
   }
 
   async createUser(userDto: CreateUserDto): Promise<UserEntity | undefined> {
+    let user = await this.userRepository.findOne({ where: { username: userDto.username } } )
+    if (user) {
+      throw new BadRequestException("User " + userDto.username + " already exists");
+    }
     userDto.password = await BcryptUtils.hash(userDto.password)
     return this.userRepository.createUser(userDto);
   }

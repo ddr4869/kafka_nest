@@ -1,0 +1,18 @@
+.boardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 600px; /* 컨테이너의 최대 너비 설정 */
+  }
+  
+  .boardCard {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(50% - 20px); /* 한 줄에 2개의 카드가 들어가도록 너비 조정 */
+  }
+  
+  .button {
+    margin-top: 10px;
+    cursor: pointer;
+  }

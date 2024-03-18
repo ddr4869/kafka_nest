@@ -22,6 +22,14 @@ export class BoardController {
         return this.boardService.createBoard(createDto);
     }
 
+    @Get('')
+    @UseGuards(AuthGuard)
+    @UsePipes(ValidationPipe)
+    getBoards(@Req() req: any) {
+        return this.boardService.getBoards();
+    }
+
+
     @Post('recommend')
     recommendBoard(@Body() recommendDto: RecommendBoardDto) {
         return this.boardService.recommendBoard(recommendDto);

@@ -21,6 +21,8 @@ export class CreateBoardDto {
     }
 }
 
+
+
 export class CreateRecommendBoardDto {
     @IsNotEmpty()
     @IsNumber()
@@ -44,6 +46,9 @@ export class RecommendBoardDto {
     constructor(board_id:number) {
         this.board_id = board_id;
     }
+}
+
+export class GetBoardsDto {
 }
 
 export class BoardResultDto {
