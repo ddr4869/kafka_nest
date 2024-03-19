@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Inject, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Inject, Delete, UseGuards, Request, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   ClientKafka,
@@ -24,9 +24,14 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('messages/:board_id') 
+  async getBoardMessages(@Param('board_id') boardId: number) {
+    return this.appService.getBoardMessages(boardId);
+  }
+
   @Get('messages') 
-  async getMessages() {
-    return this.appService.getMessages();
+  async getAllMessages() {
+    return this.appService.getAllMessages();
   }
 
   @Delete('messages')

@@ -18,13 +18,13 @@ const ChatComponent = ({ messages, newMessage, me, value, setValue, onSubmit }) 
           ))}
         </div>
       )}
-      {newMessage.length > 0 && (
+      {newMessage.length > 0 ? (
         <div>
           {newMessage.map((msg, index) => (
             <MsgComponent key={index} writer={msg.writer} message={msg.message} me={me} />
           ))}
         </div>
-      )}
+      ) : null}
     </div>
     <div className="input-area">
       <input

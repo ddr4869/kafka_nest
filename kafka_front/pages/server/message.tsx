@@ -1,15 +1,12 @@
 import axios from './axios'
 
-export const getBoards = (token:string) => {
+export const getMessages = (props:any) => {
     //noStore()
     try {
       return new Promise<any>((resolve, reject) => {
-        const reqUrl = '/board';
+        const reqUrl = `/messages/${props.board_id}`;
+        console.log("reqUrl: ", reqUrl)
         axios.get(reqUrl,  {
-            headers: {
-              // Bearer 토큰을 Authorization 헤더에 추가
-              'Authorization': `Bearer ${token}`
-            }
           })
         .then(res => {
           resolve(res.data.data);

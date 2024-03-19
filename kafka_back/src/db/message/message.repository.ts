@@ -12,13 +12,26 @@ export class MessageRepository extends Repository<MessageEntity>{
     }
     
     async createMessage(dto: createMessageDto): Promise<any> {
-        const entity: MessageEntity = super.create(new MessageEntity(dto.writer, dto.message, dto.board));
+        const entity: MessageEntity = super.create(new MessageEntity(dto.writer, dto.message, dto.board_id));
         await super.save(entity);
         console.log("createMessage success!")
         return entity;
     }
 
-    async queryMessages(dto: queryMessagesDto): Promise<any> {
+    async queryBoardMessages(dto: queryMessagesDto): Promise<any> {
+        // query messages with pagination, shoul query latest messages
+        const options: FindManyOptions<MessageEntity> = {
+            where: { board_id: dto.board_id },
+            order: { createdAt: "DESC" },
+            take: 50,
+        }
+        const messages: MessageEntity[] = await super.find(
+            options
+        );
+        return messages;
+    }
+
+    async queryAllMessages(dto: queryMessagesDto): Promise<any> {
         // query messages with pagination, shoul query latest messages
         const options: FindManyOptions<MessageEntity> = {
             order: { createdAt: "DESC" },

@@ -11,7 +11,7 @@ const Home = ({Component, pageProps}) => {
   return (
     <SessionProvider>
       <WebsocketProvider value={socket}>
-        <Websocket />
+        <Websocket board_id={2} />
       </WebsocketProvider>
     </SessionProvider>
   );

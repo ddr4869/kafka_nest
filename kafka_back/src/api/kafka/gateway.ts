@@ -27,18 +27,26 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
       topic: TOPIC,
       messages: [{ 
           key: data.writer,
-          value: data.message
+          value: data.message,
         }]
     });
-    // this.server.emit('onMessage', {
-    //   writer: data.writer,
-    //   message: data.message
-    // });
+    this.server.emit('onMessage', {
+      writer: data.writer,
+      message: data.message
+    });
 
-    let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
-    let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity));
-    console.log("entity!: ", entity);
-    return data;
+    //let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
+    try {
+      let boardEntity = await this.boardRepository.findOne({where: data.board_id})
+
+      let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity.board_id));
+      console.log("entity!: ", entity);
+      return data;
+    } catch (error) {
+      console.log("data.board_id: ",data.board_id)
+      console.log("error: ", error);
+    }
+
   }
 
   @SubscribeMessage('connect')
@@ -51,7 +59,7 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         }]
     });
     let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
-    let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity));
+    let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity.board_id));
     console.log("entity!: ", entity);
     return data;
   }
@@ -62,7 +70,6 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client Connected : ${client.id}`);
-    console.log("args: ", args)
     this.server.emit('onComing', {
       writer: client.id.substring(0, 8), 
       message: "방에 입장하셨습니다."

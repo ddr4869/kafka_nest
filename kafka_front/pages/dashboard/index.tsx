@@ -14,8 +14,13 @@ const Home = () => {
   const [boards, setBoards] = useState([]);
   const router = useRouter();
 
-  const navigateToBoard = (boardId:any) => {
-    router.push(`/api/board/${boardId}`);
+  const navigateToBoard = (boardId:any, boardName:any) => {
+    router.push({
+      pathname: `/board/${boardId}`,
+      query: {
+        board_name: boardName
+      }
+    });
   };
 
   useEffect(() => {
@@ -30,7 +35,6 @@ const Home = () => {
   useEffect(() => {
     const fetchBoards = async (token:string) => {
       try {
-        
         // API 요청 URL을 적절히 변경하세요.
         const response = await getBoards(token);
         console.log(response)
@@ -100,7 +104,7 @@ const Home = () => {
               <div>Name: {board.board_name}</div>
               <div>Star: {board.board_star}</div>
               <div>Admin: {board.board_admin}</div>
-              <button onClick={() => navigateToBoard(board.board_id)}>View Board</button>
+              <button onClick={() => navigateToBoard(board.board_id, board.board_name)}>View Board</button>
             </div>
             ))}
           </ul>

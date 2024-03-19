@@ -21,7 +21,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     test('the data is peanut butter', async () => {
-      const data = await appService.getMessages();
+      const data = await appService.getAllMessages();
       expect(data).toBeDefined();
     });
     // it('should return "Hello World!"', () => {

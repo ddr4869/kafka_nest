@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, Req } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { ProducerService } from '@kafka/producer.service';
@@ -29,8 +29,14 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getMessages(): Promise<MessageEntity[]> {
-    return this.messageRepository.queryMessages(new queryMessagesDto());
+  async getBoardMessages(boardId: number): Promise<MessageEntity[]> {
+    let dto = new queryMessagesDto()
+    dto.board_id = boardId
+    return this.messageRepository.queryBoardMessages(dto);
+  }
+
+  async getAllMessages(): Promise<MessageEntity[]> {
+    return this.messageRepository.queryAllMessages(new queryMessagesDto());
   }
 
   async deleteMessages(): Promise<void> {
