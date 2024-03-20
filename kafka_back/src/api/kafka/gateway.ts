@@ -37,7 +37,8 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
     //let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
     try {
-      let boardEntity = await this.boardRepository.findOne({where: data.board_id})
+      console.log("data.board_id: ", data.board_id)
+      let boardEntity = await this.boardRepository.findOne({where: {board_id:data.board_id } })
 
       let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity.board_id));
       console.log("entity!: ", entity);

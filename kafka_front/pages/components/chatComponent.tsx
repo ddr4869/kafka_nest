@@ -2,11 +2,10 @@ import React from "react";
 import MsgComponent from "./msgComponent";
 import { useRef, useEffect } from "react";
 
-const ChatComponent = ({ messages, newMessage, me, value, setValue, onSubmit }) => (
-
+const ChatComponent = ({ board_name, messages, newMessage, me, value, setValue, onSubmit }) => (
   <div className="container">
     <div className="header">
-      <h1>Websocket Chat</h1>
+      <h1>{board_name}</h1>
     </div>
     <div className="messages">
       {messages.length === 0 && newMessage.length === 0 ? (

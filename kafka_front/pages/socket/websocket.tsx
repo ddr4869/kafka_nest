@@ -14,7 +14,10 @@ class Message {
   }
 }
 
+
 export const Websocket = (props: any) => {
+  const router = useRouter();
+
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState([] as Message[]);
   //const [newMessage, setNewMessage] = useState([new Message("me", "방에 입장하셨습니다.")] as Message[]);
@@ -34,7 +37,6 @@ export const Websocket = (props: any) => {
   //   }
   // }
 
-
   useEffect(() => {
     setMe(socket.id? socket.id.substring(0, 8) : 'anonymous');
     if (!session) {
@@ -48,8 +50,9 @@ export const Websocket = (props: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await getMessages(props);
-        console.log(response)
+        console.log("!!props !!: ", props)
+        console.log("router: ", router)
+        let response = await getMessages(props, router.query);
         setMessages(response.map((item) => new Message(item.writer, item.message)));
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -80,7 +83,6 @@ export const Websocket = (props: any) => {
   });
 
   socket.on("onMessage", (inputMessage: Message) => {
-    console.log("inputMessage.writer: ", inputMessage.writer)
     setNewMessage([
       ...newMessage,
       new Message(inputMessage.writer, inputMessage.message),
@@ -106,7 +108,7 @@ export const Websocket = (props: any) => {
     socket.emit("newMessage", {
       writer: socket.id.substring(0, 8),
       message: value,
-      board_id: board_id
+      board_id: props.board_id
     });
     setValue("");
   };
@@ -114,7 +116,7 @@ export const Websocket = (props: any) => {
 
   return (
     <div>
-      <ChatComponent  messages={messages} newMessage={newMessage} me={me} value={value} setValue={setValue} onSubmit={onSubmit} />
+      <ChatComponent board_name={props.board_name} messages={messages} newMessage={newMessage} me={me} value={value} setValue={setValue} onSubmit={onSubmit} />
     </div>
   );
 };

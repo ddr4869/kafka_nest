@@ -1,10 +1,13 @@
 import axios from './axios'
 
-export const getMessages = (props:any) => {
+export const getMessages = (props:any, query:any) => {
     //noStore()
+    
     try {
       return new Promise<any>((resolve, reject) => {
-        const reqUrl = `/messages/${props.board_id}`;
+        console.log("getMessages props: ", props)
+        console.log("getMessages board_id: ", query)
+        const reqUrl = `/messages/${query.id}`;
         console.log("reqUrl: ", reqUrl)
         axios.get(reqUrl,  {
           })
@@ -21,4 +24,3 @@ export const getMessages = (props:any) => {
       throw new Error('Failed to connect server.');
     }
   }
-  

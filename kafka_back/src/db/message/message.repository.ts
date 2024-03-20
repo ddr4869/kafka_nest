@@ -19,6 +19,7 @@ export class MessageRepository extends Repository<MessageEntity>{
     }
 
     async queryBoardMessages(dto: queryMessagesDto): Promise<any> {
+        console.log("dto.board_id: ", dto.board_id)
         // query messages with pagination, shoul query latest messages
         const options: FindManyOptions<MessageEntity> = {
             where: { board_id: dto.board_id },
@@ -28,6 +29,7 @@ export class MessageRepository extends Repository<MessageEntity>{
         const messages: MessageEntity[] = await super.find(
             options
         );
+        console.log("messages: ", messages)
         return messages;
     }
 

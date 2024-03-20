@@ -25,8 +25,8 @@ export class AppController {
   }
 
   @Get('messages/:board_id') 
-  async getBoardMessages(@Param('board_id') boardId: number) {
-    return this.appService.getBoardMessages(boardId);
+  async getBoardMessages(@Param('board_id') board_id: number) {
+    return this.appService.getBoardMessages(board_id);
   }
 
   @Get('messages') 

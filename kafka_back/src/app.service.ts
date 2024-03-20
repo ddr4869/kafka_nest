@@ -29,9 +29,10 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getBoardMessages(boardId: number): Promise<MessageEntity[]> {
+  async getBoardMessages(board_id: number): Promise<MessageEntity[]> {
     let dto = new queryMessagesDto()
-    dto.board_id = boardId
+    console.log("getBoardMessages board_id: ", board_id)
+    dto.board_id = board_id
     return this.messageRepository.queryBoardMessages(dto);
   }
 
