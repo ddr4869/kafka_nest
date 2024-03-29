@@ -2,7 +2,7 @@ import React from "react";
 import MsgComponent from "./msgComponent";
 import { useRef, useEffect } from "react";
 
-const ChatComponent = ({ board_name, messages, newMessage, me, value, setValue, onSubmit }) => (
+const ChatComponent = ({ board_name, board_id, messages, newMessage, me, value, setValue, onSubmit }) => (
   <div className="container">
     <div className="header">
       <h1>{board_name}</h1>
@@ -12,16 +12,20 @@ const ChatComponent = ({ board_name, messages, newMessage, me, value, setValue, 
         <div>No Messages</div>
       ) : (
         <div>
+          {/* 기존 DB Message */}
           {messages.slice().reverse().map((msg, index) => (
-            <MsgComponent key={index} writer={msg.writer} message={msg.message} me={me} />
+            <MsgComponent key={index} board_id={board_id}  writer={msg.writer} message={msg.message} me={me} />
           ))}
         </div>
       )}
       {newMessage.length > 0 ? (
         <div>
-          {newMessage.map((msg, index) => (
-            <MsgComponent key={index} writer={msg.writer} message={msg.message} me={me} />
-          ))}
+          {/* 새 메세지 */}
+          {newMessage.map((msg, index) => {
+            if (msg.board_id === board_id) {
+              return <MsgComponent key={index} writer={msg.writer} message={msg.message} me={me} board_id={msg.board_id} />
+            } 
+          })}
         </div>
       ) : null}
     </div>

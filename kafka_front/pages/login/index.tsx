@@ -17,7 +17,6 @@ export default function LoginForm() {
       const { access_token } = data;
       localStorage.setItem('accessToken', access_token);
       localStorage.setItem('username', username);
-      console.log("access: ", localStorage.getItem('accessToken'));
       router.push("/");
     } catch (error) {
       console.error('로그인 에러:', error);

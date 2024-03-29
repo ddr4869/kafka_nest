@@ -21,10 +21,14 @@ export class BoardService {
   }
 
   async getBoards(): Promise<BoardEntity[] | undefined> {
-    return this.boardRepository.find();
+    return this.boardRepository.find(
+      // order by board_id
+      { order: { board_id: "ASC" } }
+    );
   }
 
   async recommendBoard(boardDto: RecommendBoardDto): Promise<any> {
+    console.log("boardDto.board_id -> : ", boardDto.board_id)
     let board = await this.boardRepository.findOne({ where: { board_id: boardDto.board_id } });
     if (!board) {
       throw new BadRequestException("Board not found");

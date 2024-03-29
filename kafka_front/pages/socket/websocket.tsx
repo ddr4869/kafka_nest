@@ -7,35 +7,25 @@ import { getMessages } from "../server/message";
 class Message {
   writer: string;
   message: string;
+  board_id: string;
 
-  constructor(writer: string, message: string) {
+  constructor(writer: string, message: string, board_id: string) {
     this.writer = writer;
     this.message = message;
+    this.board_id = board_id;
   }
 }
-
 
 export const Websocket = (props: any) => {
   const router = useRouter();
 
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState([] as Message[]);
-  //const [newMessage, setNewMessage] = useState([new Message("me", "방에 입장하셨습니다.")] as Message[]);
   const [newMessage, setNewMessage] = useState([] as Message[]);
   const [me, setMe] = useState("--User Connecting--");
   const socket = useContext(WebsocketContext);
   const { data: session, status } = useSession()
   
-  //let username:any
-
-  // if (typeof window !== 'undefined') {
-  //   // Perform localStorage action
-  //   username = localStorage.getItem('username');
-  //   if (username === null) {
-  //     const router = useRouter();
-  //     router.push("/login")
-  //   }
-  // }
 
   useEffect(() => {
     setMe(socket.id? socket.id.substring(0, 8) : 'anonymous');
@@ -50,27 +40,15 @@ export const Websocket = (props: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("!!props !!: ", props)
-        console.log("router: ", router)
         let response = await getMessages(props, router.query);
-        setMessages(response.map((item) => new Message(item.writer, item.message)));
+        setMessages(response.map((item) => new Message(item.writer, item.message, props.board_id)));
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
     };
-
     fetchData();
   }, []); // socket 의존성 추가
 
-  socket.on("connect", () => {
-    console.log("connect!")
-    socket.emit("newMessage", {
-      // username: username,
-      writer: me,
-      message: value,
-    });
-    console.log("Connected!");
-  });
 
   socket.on("disconnect", () => {
     console.log("Disconnected!");
@@ -85,28 +63,19 @@ export const Websocket = (props: any) => {
   socket.on("onMessage", (inputMessage: Message) => {
     setNewMessage([
       ...newMessage,
-      new Message(inputMessage.writer, inputMessage.message),
+      new Message(inputMessage.writer, inputMessage.message, inputMessage.board_id),
     ]);
   });
-
-  // socket.on("onComing", (inputMessage: Message) => {
-  //   setNewMessage([
-  //     ...newMessage,
-  //     new Message(inputMessage.writer, inputMessage.message),
-  //   ]);
-  //   console.log("onComing: ", inputMessage);
-  // });
 
 
   const onSubmit = () => {
     if (value == "" || socket.id === undefined) {
       return;
     }
-    // setNewMessage([
-    //   ...newMessage, new Message(me, value),
-    // ]);
+    const username = localStorage.getItem('username');
+    console.log("username! ", username)
     socket.emit("newMessage", {
-      writer: socket.id.substring(0, 8),
+      writer: username,
       message: value,
       board_id: props.board_id
     });
@@ -116,7 +85,15 @@ export const Websocket = (props: any) => {
 
   return (
     <div>
-      <ChatComponent board_name={props.board_name} messages={messages} newMessage={newMessage} me={me} value={value} setValue={setValue} onSubmit={onSubmit} />
+      <ChatComponent 
+        board_name={props.board_name} 
+        board_id={props.board_id} 
+        messages={messages} 
+        newMessage={newMessage} 
+        me={me} 
+        value={value} 
+        setValue={setValue} 
+        onSubmit={onSubmit} />
     </div>
   );
 };

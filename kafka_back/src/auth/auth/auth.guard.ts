@@ -19,7 +19,6 @@ import {
         console.log("no token")
         throw new UnauthorizedException();
       }
-      console.log("token: ", token) 
       try {
         const payload = await this.jwtService.verifyAsync(
           token,

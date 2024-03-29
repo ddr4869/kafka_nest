@@ -25,22 +25,33 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   async onNewMessage(@MessageBody() data: any) {
     this.producerService.produce({
       topic: TOPIC,
-      messages: [{ 
-          key: data.writer,
+      messages: [
+        { 
+          key: "writer",
+          value: data.writer,
+        },
+        { 
+          key: "message",
           value: data.message,
-        }]
+        },
+        { 
+          key: "board_id",
+          value: data.board_id,
+        },
+      ]
     });
     this.server.emit('onMessage', {
       writer: data.writer,
-      message: data.message
+      message: data.message,
+      board_id: data.board_id
     });
 
     //let boardEntity = await this.boardRepository.getBoardByName(TOPIC)
     try {
       console.log("data.board_id: ", data.board_id)
-      let boardEntity = await this.boardRepository.findOne({where: {board_id:data.board_id } })
+      //let boardEntity = await this.boardRepository.findOne({where: {board_id:data.board_id } })
 
-      let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, boardEntity.board_id));
+      let entity = this.messageRepository.createMessage(new createMessageDto(data.writer, data.message, data.board_id));
       console.log("entity!: ", entity);
       return data;
     } catch (error) {

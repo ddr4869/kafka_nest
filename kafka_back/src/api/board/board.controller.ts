@@ -32,6 +32,7 @@ export class BoardController {
 
     @Post('recommend')
     recommendBoard(@Body() recommendDto: RecommendBoardDto) {
+        console.log("recommendDto: ", recommendDto)
         return this.boardService.recommendBoard(recommendDto);
     }
 

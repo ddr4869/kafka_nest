@@ -5,10 +5,7 @@ export const getMessages = (props:any, query:any) => {
     
     try {
       return new Promise<any>((resolve, reject) => {
-        console.log("getMessages props: ", props)
-        console.log("getMessages board_id: ", query)
         const reqUrl = `/messages/${query.id}`;
-        console.log("reqUrl: ", reqUrl)
         axios.get(reqUrl,  {
           })
         .then(res => {

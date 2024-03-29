@@ -1,6 +1,6 @@
 import axios from './axios'
 
-export const getBoards = (token:string) => {
+export const getBoardsAxios = (token:string) => {
     //noStore()
     try {
       return new Promise<any>((resolve, reject) => {
@@ -23,5 +23,28 @@ export const getBoards = (token:string) => {
       console.error('Server Error:', error);
       throw new Error('Failed to connect server.');
     }
-  }
+}
+
+// recommend board
+export const recommendBoardAxios = (board_id:number) => {
+    //noStore()
+    try {
+      return new Promise<any>((resolve, reject) => {
+        const reqUrl = `/board/recommend`;
+        axios.post(reqUrl, {
+           board_id: board_id
+          })
+        .then(res => {
+          resolve(res.data.data);
+        })
+        .catch(err => {
+            console.log(err)
+          reject(err.message);
+        })
+      })
+    } catch (error) {
+      console.error('Server Error:', error);
+      throw new Error('Failed to connect server.');
+    }
+}
   
