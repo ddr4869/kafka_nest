@@ -6,17 +6,14 @@ export class CreateBoardDto {
     @IsString()
     board_name: string;
 
-    @IsNotEmpty()
-    @IsString()
     board_admin: string;
 
     @IsNotEmpty()
     @IsString()
     board_password: string;
     
-    constructor(board_name: string, board_admin: string, board_password: string) {
+    constructor(board_name: string, board_password: string) {
         this.board_name = board_name;
-        this.board_admin = board_admin;
         this.board_password = board_password;
     }
 }

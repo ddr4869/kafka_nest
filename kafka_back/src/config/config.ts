@@ -51,5 +51,5 @@ export const JWTSECRET = env
 
 export const JWTEXPIRE = env
     .get('JWT_EXPIRES_IN')
-    .default('60s')
+    .default('1200s')
     .asString();

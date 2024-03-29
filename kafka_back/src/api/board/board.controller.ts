@@ -18,7 +18,8 @@ export class BoardController {
     @Post('create')
     @UseGuards(AuthGuard)
     @UsePipes(ValidationPipe)
-    creatgeBoard(@Body() createDto: CreateBoardDto ) {
+    creatgeBoard(@Req() request, @Body() createDto: CreateBoardDto ) {
+        createDto.board_admin = request.user.username
         return this.boardService.createBoard(createDto);
     }
 

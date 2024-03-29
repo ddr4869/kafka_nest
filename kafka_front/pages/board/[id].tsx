@@ -19,7 +19,6 @@ export default function Page({id}:any) {
       <WebsocketProvider value={socket}>
         <Websocket board_id={id} board_name={router.query.board_name}/>
       </WebsocketProvider>
-      
     </SessionProvider>
   )
 }
